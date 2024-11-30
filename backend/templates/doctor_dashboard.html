@@ -1,0 +1,97 @@
+{% extends "doctor_dashboard_base.html" %}
+
+{% block title %}Doctor Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Pending Receipts</h2>
+<table class="table-auto w-full text-left">
+    <thead>
+        <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2"> Name</th>
+            <th class="px-4 py-2">Email</th>
+            <th class="px-4 py-2">Address</th>
+            <th class="px-4 py-2">Disease</th>
+            <th class="px-4 py-2">Prescription</th>
+            <th class="px-4 py-2">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for receipt in pending_receipts %}
+        <tr>
+            <td class="px-4 py-2">{{ receipt.id }}</td>
+            <td class="px-4 py-2">{{ receipt.name }}</td>
+            <td class="px-4 py-2">{{ receipt.customer_email }}</td>
+            <td class="px-4 py-2">{{ receipt.address }}</td>
+            <td class="px-4 py-2">{{ receipt.prescription}}</td>
+            <td class="px-4 py-2">{{ receipt.disease }}</td>
+            <td class="px-4 py-2">
+                {% if receipt.prescription %}
+            {{ receipt.prescription }} {% else %}
+                No Prescription
+                {% endif %}
+            </td>
+            <td class="px-4 py-2">
+                <button 
+                    onclick="updateReceiptStatus({{ receipt.id }}, 'approved')" 
+                    class="bg-green-900 hover:bg-olive-green px-4 py-2 rounded">Approve</button>
+                <button 
+                    onclick="updateReceiptStatus({{ receipt.id }}, 'rejected')" 
+                    class="bg-red-500 hover:bg-red-700 px-4 py-2 rounded">Reject</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<h2 class="text-xl font-bold mt-8 mb-4">Previous Receipts</h2>
+<table class="table-auto w-full text-left">
+    <thead>
+        <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2"> Name</th>
+            <th class="px-4 py-2">Email</th>
+            <th class="px-4 py-2">Address</th>
+            <th class="px-4 py-2">Disease</th>
+            <th class="px-4 py-2">Prescription</th>
+            <th class="px-4 py-2">Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for receipt in previous_receipts %}
+        <tr>
+            <td class="px-4 py-2">{{ receipt.id }}</td>
+            <td class="px-4 py-2">{{ receipt.name }}</td>
+            <td class="px-4 py-2">{{ receipt.customer_email }}</td>
+            <td class="px-4 py-2">{{ receipt.address }}</td>
+            <td class="px-4 py-2">{{ receipt.disease }}</td>
+         
+            <td class="px-4 py-2">
+                {% if receipt.prescription %}
+            {{ receipt.prescription }} {% else %}
+                No Prescription
+                {% endif %}
+            </td>
+            <td class="px-4 py-2">
+                {{ receipt.status | capitalize }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    async function updateReceiptStatus(receiptId, status) {
+        const response = await fetch('/doctor/approve_reject_receipt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ receipt_id: receiptId, status: status }),
+        });
+        const result = await response.json();
+        alert(result.message);
+        location.reload();  // Reload the page to update the list of pending receipts
+    }
+</script>
+{% endblock %}

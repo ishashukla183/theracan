@@ -1,0 +1,15 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+
+<h1 class="text-2xl font-bold text-gray-800 mb-6">Add Sales</h1>
+<form method="POST" action="/admin/add_sales" class="bg-white p-6 rounded shadow-md max-w-lg">
+  <div class="mb-4">
+    <label for="amount" class="block text-gray-700">Amount</label>
+    <input type="number" name="amount" id="amount" class="w-full px-4 py-2 border rounded-md" required>
+  </div>
+  <button type="submit" class="px-6 py-2 rounded bg-olive-green">
+    Add Sale
+  </button>
+</form>
+{% endblock %}

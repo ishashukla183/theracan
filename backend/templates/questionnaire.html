@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Questionnaire</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.0.3/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <div class="container mx-auto mt-8 p-4">
+    <!-- Notification for Welcome Message -->
+    <div class="bg-blue-100 text-black p-4 rounded-md mb-5">
+      <div class="flex flex-col space-y-2">
+        <h5 class="text-lg font-semibold">Welcome to the TheraCan platform!</h5>
+        <p>The platform for medicinal cannabis - request treatment in just a few steps.</p>
+      </div>
+    </div>
+
+    <!-- Accordion -->
+    <div class="accordion" id="accordionExample">
+      <!-- Step 1: Personal Information -->
+      <div class="accordion-item mb-3">
+        <h2 class="accordion-header">
+          <button class="accordion-button w-full text-left bg-green-900 text-white py-3 px-5 rounded-md" type="button" data-toggle="collapse" data-target="#step1">
+            Step 1: Personal Information
+          </button>
+        </h2>
+        <div id="step1" class="accordion-collapse collapse show">
+          <div class="accordion-body p-5 bg-gray-50 rounded-md">
+            <form id="step1-form">
+              <div class="mb-4">
+                <label for="fullName" class="block text-gray-700">Full Name</label>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Max Mustermann" id="fullName" name="fullName" required>
+              </div>
+              <div class="mb-4">
+                <label for="address" class="block text-gray-700">Address</label>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="123 Main St" id="address" name="address" required>
+              </div>
+              <div class="mb-4">
+                <label for="disease" class="block text-gray-700">Disease</label>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Condition" id="disease" name="disease" required>
+              </div>
+              <div class="mb-4">
+                <label for="prescription" class="block text-gray-700">Prescription (optional)</label>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., Drug Name" id="prescription" name="prescription">
+              </div>
+              <!-- Customer Email -->
+              <div class="mb-4">
+                <label for="customerEmail" class="block text-gray-700">Customer Email</label>
+                <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="email@example.com" id="customerEmail" name="customerEmail" required>
+              </div>
+              <!-- Doctor Email (optional) 
+              <div class="mb-4">
+                <label for="doctorEmail" class="block text-gray-700">Doctor Email (optional)</label>
+                <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="doctor@example.com" id="doctorEmail" name="doctorEmail">
+              </div>-->
+              <!-- Terms and Conditions Checkbox -->
+              <div class="mb-4 flex items-center">
+                <input type="checkbox" id="termsCheckbox" class="mr-2" onchange="toggleSubmitButton()">
+                <label for="termsCheckbox" class="text-gray-700">
+                  I agree to the <a href="#" class="text-blue-500">Terms and Conditions</a>
+                </label>
+              </div>
+              <!-- Submit Button -->
+              <button type="button" id="submitButton" class="w-full py-2 px-4 bg-green-900 text-white rounded-md hover:bg-green-600 transition" onclick="submitForm()" disabled>
+                Create Receipt
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Script for Bootstrap Accordion -->
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Script to handle form submission and checkbox logic -->
+  <script>
+    function toggleSubmitButton() {
+      const submitButton = document.getElementById('submitButton');
+      const termsCheckbox = document.getElementById('termsCheckbox');
+      
+      // Enable the submit button only when the checkbox is checked
+      submitButton.disabled = !termsCheckbox.checked;
+    }
+
+    function submitForm() {
+      // Collect the form data
+      const formData = {
+      
+        name: document.getElementById('fullName').value,
+        address: document.getElementById('address').value,
+        disease: document.getElementById('disease').value,
+        prescription: document.getElementById('prescription').value,
+        customer_email: document.getElementById('customerEmail').value,
+       
+      };
+
+      // Send the form data to the backend using AJAX
+      fetch('/customer/create_receipt', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Receipt created successfully!');
+        console.log(data);
+      })
+      .catch(error => {
+        alert('Error creating receipt');
+        console.error(error);
+      });
+    }
+  </script>
+</body>
+</html>

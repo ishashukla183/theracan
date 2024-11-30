@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Tailwind Config for Olive-Green Theme */
+        @layer base {
+            .bg-olive-green { background-color: #556B2F; }
+            .bg-dark-green { background-color: #2E4600; }
+            .bg-light-green { background-color: #A9DFBF; }
+            .text-olive { color: #556B2F; }
+            .text-dark-green { color: #2E4600; }
+        }
+    </style>
+</head>
+<body class=" font-sans min-h-screen">
+    <!-- Header -->
+    <header class="bg-dark-green p-6">
+        <h1 class="text-center text-white text-2xl font-bold">Admin Dashboard</h1>
+    </header>
+
+    <!-- Sidebar and Main Content -->
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-1/4 text-white bg-black p-6 min-h-screen">
+            <nav>
+                <ul class="space-y-4">
+                    <li>
+                        <a href="{{ url_for('admin_dashboard') }}" class="block  font-medium hover:text-olive">Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('add_sales') }}" class="block  font-medium hover:text-olive">Add Sales</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('view_sales') }}" class="block  font-medium hover:text-olive">View Total Sales</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('add_doctor') }}" class="block  font-medium hover:text-olive">Add Doctors</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('view_doctors') }}" class="block text-dark-green font-medium hover:text-olive">View Existing Doctors</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('all_receipts') }}" class="block font-medium hover:text-olive">View All Receipts</a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-3/4 p-6">
+            {% block content %}
+            <h2 class="text-xl font-semibold mb-4">Welcome to the admin dashboard!</h2>
+            <p class="">Select an option from the menu to manage the system.</p>
+            {% endblock %}
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark-green p-4 text-center text-sm">
+        <p>&copy; 2024 TheraCan Admin Dashboard. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!-- templates/navbar.html -->
+<nav class="fixed top-0 w-full bg-white z-50 shadow-md">
+    <div class="flex items-center justify-between px-8 py-4 container mx-auto" style="height:120px" >
+        <!-- Logo 
+         <a href="/" class="block py-2 md:py-0 hover:underline">
+            <img  width="169" height="30"  src="{{ url_for('static', filename='images/theracan_logo.jpg') }}" alt="TheraCan Logo" class="cursor-pointer w-32" />
+        </a> -->
+<span style="width: 169px;"></span>
+        <!-- Hamburger menu button for mobile -->
+        <button class="md:hidden block focus:outline-none" onClick="toggleMenu()">
+            <svg class="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path strokeLinecap="round" strokeLinejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+
+        <!-- Links - Desktop and Mobile -->
+        <div id="menu" class="md:flex md:items-center md:space-x-8 w-full md:w-auto hidden">
+            <a href="/" class="block py-2 md:py-0 text-xl font-semibold hover:underline">Homepage</a>
+            <div class="relative">
+                <button onClick="toggleDropdown()" class="block py-2 md:py-0 text-xl font-semibold text-gray-800 hover:underline focus:outline-none">
+                    Diseases
+                </button>
+                <div id="dropdown" class="absolute mt-2 w-64 bg-white shadow-lg rounded-md hidden">
+                    <a href="/diseases/sleep-disorders" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Sleep Disorders</a>
+                    <a href="/diseases/chronic-pain" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Chronic Pain</a>
+                    <a href="/diseases/migraine" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Migraine</a>
+                    <!-- Add more disease links here -->
+                </div>
+            </div>
+
+            <a href="/about" class="block py-2 md:py-0 text-xl font-semibold text-gray-800 hover:underline">About TheraCan</a>
+
+            <!-- Request Treatment Button -->
+            <div class="mt-4 md:mt-0">
+                <a href="/questionnaire">
+                    <button class="bg-green-800 text-white py-2 px-6 rounded-full shadow-lg transition duration-300 hover:bg-green-700">
+                        Request Treatment Now
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<script>
+    function toggleMenu() {
+        document.getElementById('menu').classList.toggle('hidden');
+    }
+
+    function toggleDropdown() {
+        document.getElementById('dropdown').classList.toggle('hidden');
+    }
+</script>

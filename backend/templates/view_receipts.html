@@ -1,0 +1,31 @@
+{% extends "dashboard_base.html" %}
+
+{% block content %}
+<h1 class="text-2xl font-bold text-gray-800 mb-6">Receipts</h1>
+<table class="w-full bg-white shadow-md rounded">
+  <thead>
+    <tr class="bg-olive-green text-white">
+      <th class="px-4 py-2">ID</th>
+      <th class="px-4 py-2">Customer</th>
+      <th class="px-4 py-2">Address</th>
+      <th class="px-4 py-2">Email</th>
+      <th class="px-4 py-2">Disease</th>
+      <th class="px-4 py-2">Prescription</th>
+      <th class="px-4 py-2">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for receipt in receipts %}
+    <tr>
+      <td class="px-4 py-2 border">{{ receipt.id }}</td>
+      <td class="px-4 py-2 border">{{ receipt.name }}</td>
+      <td class="px-4 py-2 border">{{ receipt.address }}</td>
+      <td class="px-4 py-2 border">{{ receipt.customer_email }}</td>
+      <td class="px-4 py-2 border">{{ receipt.disease }}</td>
+      <td class="px-4 py-2 border">{{ receipt.prescription }}</td>
+      <td class="px-4 py-2 border">{{ receipt.status }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

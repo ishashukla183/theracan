@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Doctor Dashboard{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom Tailwind Config for Olive-Green Theme */
+        @layer base {
+            .bg-olive-green { background-color: #556B2F; }
+            .bg-dark-green { background-color: #2E4600; }
+            .bg-light-green { background-color: #A9DFBF; }
+            .text-olive { color: #556B2F; }
+            .text-dark-green { color: #2E4600; }
+        }
+    </style>
+</head>
+<body class="">
+    <header class="bg-dark-green p-4">
+        <h1 class="text-center text-white text-xl font-bold">Doctor Dashboard</h1>
+    </header>
+    <div class="flex">
+        <!-- Sidebar -->
+        <aside class="w-1/4 bg-black p-4 min-h-screen">
+            <nav>
+                <ul class="space-y-4">
+                    <li><a href="{{ url_for('doctor_dashboard') }}" class="text-white hover:underline">Dashboard</a></li>
+                    <li><a href="{{ url_for('doctor_login') }}" class="text-white hover:underline">Logout</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="w-3/4 p-4">
+            {% block content %}
+            <p>Welcome to the Doctor Dashboard!</p>
+            {% endblock %}
+        </main>
+    </div>
+    <footer class="bg-dark-green p-4 text-center">
+        <p>&copy; 2024 Doctor Dashboard</p>
+    </footer>
+</body>
+</html>
