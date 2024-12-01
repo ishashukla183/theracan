@@ -48,7 +48,7 @@ with app.app_context():
 
 from functools import wraps
 from flask import flash, redirect, render_template, request, jsonify, session, url_for
-from app import app, db, User, Receipt, Sales
+
 
 # Helper function to fetch user by email
 
