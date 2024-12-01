@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center bg-olive-50">
+    <div class="w-full max-w-md bg-olive-100 p-6 rounded-lg shadow-md">
+        <h2 class="text-center text-2xl font-semibold text-olive-800 mb-4">
+            Sign Up
+        </h2>
+        <form action="{{ url_for('signup') }}" method="POST" class="space-y-4">
+            <div>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    class="w-full p-3 border border-olive-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-olive-500"
+                    required
+                />
+            </div>
+            <div>
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    class="w-full p-3 border border-olive-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-olive-500"
+                    required
+                />
+            </div>
+            <div>
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Retype Password"
+                    class="w-full p-3 border border-olive-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-olive-500"
+                    required
+                />
+            </div>
+            <div>
+                <button
+                    type="submit"
+                    class="w-full bg-green-800 text-white py-2 rounded-lg hover:bg-olive-700 transition duration-300"
+                >
+                    Sign up
+                </button>
+            </div>
+        </form>
+        <p class="text-center text-sm text-olive-700 mt-4">
+            Already have an account? 
+            <a href="{{ url_for('login') }}" class="text-olive-600 font-semibold hover:underline">
+                Log in instead
+            </a>
+        </p>
+    </div>
+</body>
+</html>

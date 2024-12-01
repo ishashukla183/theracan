@@ -1,0 +1,89 @@
+<!-- hero_section.html -->
+<section class="flex flex-col md:flex-row items-center justify-between px-4 md:px-10 py-10 md:py-20">
+    <!-- Left Side - Text -->
+    <div class="w-full md:w-1/2 px-4 md:px-10 mb-10 md:mb-0">
+      <h1 class="text-4xl md:text-6xl font-semibold leading-tight">
+        <div><span>The platform</span></div>
+        <div><span>around</span></div>
+        <div><em class="animated">cannabis</em></div>
+      </h1>
+  
+        <svg preserveaspectratio="none" width="215" height="16.9" viewBox="-400 -55 730 60" xmlns="http://www.w3.org/2000/svg">
+          <path
+            fill="none"
+            stroke="#426231"
+            stroke-width="14"
+            d="M-383.25-6C-328-28-252.5-39.5-90-44c54.5-.5 195-2.5 401 15"
+            pathLength="1"
+            style="animation-duration: 0s;"
+          />
+        </svg>
+     <div class="py-6">
+        <a href="/questionnaire" class="bg-green-800 text-white py-2 px-6 rounded-full shadow-lg transition duration-300">
+          Request Treatment Now
+        </a>
+      </div>
+    </div>
+  
+    <!-- Right Side - Image -->
+    <div class="w-full md:w-1/2 flex justify-center">
+      <img src="{{ url_for('static', filename='images/hero_section_img.png') }}" alt="Hero Section" class="max-w-full h-auto" />
+    </div>
+  </section>
+  
+  <!-- Description Section -->
+  <section class="flex flex-col items-center justify-center px-4 md:px-10 py-14 md:py-28">
+    <div class="w-full max-w-xl text-center md:text-left">
+      <h1 class="text-2xl md:text-4xl font-semibold mb-4 md:mb-6 leading-snug">
+        TheraCan is your platform for everything related to medical cannabis.
+      </h1>
+      <p class="text-sm md:text-base leading-relaxed">
+        Medicinal cannabis became partially legalized on April 1, 2024, and is now accessible through TheraCan for medical advice on this subject.
+      </p>
+    </div>
+  </section>
+
+  <div class="container mx-auto mt-20">
+    <div class="flex flex-col space-y-8">
+      <!-- Step 1 -->
+      <section class="flex flex-col md:flex-row items-center justify-between px-4 md:px-10 py-10 md:py-14 space-y-8 md:space-y-0">
+        <div class="w-full md:w-1/2 flex justify-center">
+          <img src="{{ url_for('static', filename='images/hero_section_step1.png') }}" alt="Step 1 Image" class="max-w-full h-auto rounded-lg" />
+        </div>
+        <div class="w-full md:w-1/2 px-4 md:px-12">
+          <h2 class="text-2xl md:text-4xl font-semibold mb-4 md:mb-6 leading-snug">1st Step</h2>
+          <p class="text-sm md:text-base leading-relaxed">
+            Fill out the medical history form and describe your needs. Select a doctor partnering with TheraCan to begin treatment for your medical cannabis prescription.
+          </p>
+        </div>
+      </section>
+
+      <!-- Step 2 -->
+      <section class="flex flex-col md:flex-row items-center justify-between px-4 md:px-10 py-10 md:py-14 space-y-8 md:space-y-0">
+        <div class="w-full md:w-1/2 md:order-2 flex justify-center">
+          <img src="{{ url_for('static', filename='images/hero_section_step1.png') }}" alt="Step 2 Image" class="max-w-full h-auto rounded-lg" />
+        </div>
+        <div class="w-full md:w-1/2 px-4 md:px-12">
+          <h2 class="text-2xl md:text-4xl font-semibold mb-4 md:mb-6 leading-snug">2nd Step</h2>
+          <p class="text-sm md:text-base leading-relaxed">
+            After payment, your selected doctor will contact you by phone or video call for a telemedical consultation, followed by a private prescription if indicated.
+          </p>
+        </div>
+      </section>
+
+      <!-- Step 3 -->
+      <section class="flex flex-col md:flex-row items-center justify-between px-4 md:px-10 py-10 md:py-14 space-y-8 md:space-y-0">
+        <div class="w-full md:w-1/2 flex justify-center">
+          <img src="{{ url_for('static', filename='images/hero_section_step1.png') }}" alt="Step 3 Image" class="max-w-full h-auto rounded-lg" />
+        </div>
+        <div class="w-full md:w-1/2 px-4 md:px-12">
+          <h2 class="text-2xl md:text-4xl font-semibold mb-4 md:mb-6 leading-snug">3rd Step</h2>
+          <p class="text-sm md:text-base leading-relaxed">
+            Receive your prescription digitally and directly from your doctor to a pharmacy of your choice or a mail-order pharmacy.
+          </p>
+        </div>
+      </section>
+      
+    </div>
+    </div>
+  

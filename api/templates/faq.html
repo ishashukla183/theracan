@@ -1,0 +1,16 @@
+<!-- faq.html -->
+<section class="my-10 p-6 rounded-lg">
+    <h2 class="text-2xl font-semibold mb-6 text-center">Frequently Asked Questions</h2>
+    {% for faq in faqs %}
+    <div class="border-b py-4">
+      <div class="flex justify-between items-center cursor-pointer" data-toggle="collapse" data-target="#faq{{ loop.index }}">
+        <h3 class="text-xl font-semibold p-3 text-green-900">{{ faq.question }}</h3>
+        <span class="text-2xl font-bold">{{ '–' if loop.index == openIndex else '+' }}</span>
+      </div>
+      <div id="faq{{ loop.index }}" class="collapse {{ 'show' if loop.index == openIndex else '' }}">
+        <div class="mt-2 text-gray-600 p-3">{{ faq.answer | safe }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </section>
+  
