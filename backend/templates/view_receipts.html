@@ -2,30 +2,32 @@
 
 {% block content %}
 <h1 class="text-2xl font-bold text-gray-800 mb-6">Receipts</h1>
-<table class="w-full bg-white shadow-md rounded">
-  <thead>
-    <tr class="bg-olive-green text-white">
-      <th class="px-4 py-2">ID</th>
-      <th class="px-4 py-2">Customer</th>
-      <th class="px-4 py-2">Address</th>
-      <th class="px-4 py-2">Email</th>
-      <th class="px-4 py-2">Disease</th>
-      <th class="px-4 py-2">Prescription</th>
-      <th class="px-4 py-2">Status</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for receipt in receipts %}
-    <tr>
-      <td class="px-4 py-2 border">{{ receipt.id }}</td>
-      <td class="px-4 py-2 border">{{ receipt.name }}</td>
-      <td class="px-4 py-2 border">{{ receipt.address }}</td>
-      <td class="px-4 py-2 border">{{ receipt.customer_email }}</td>
-      <td class="px-4 py-2 border">{{ receipt.disease }}</td>
-      <td class="px-4 py-2 border">{{ receipt.prescription }}</td>
-      <td class="px-4 py-2 border">{{ receipt.status }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {% for receipt in receipts %}
+    <div class="bg-white p-6 rounded-lg shadow-md border">
+      <h2 class="text-xl font-semibold text-gray-800">{{ receipt.name }}</h2>
+      
+      <p class="text-gray-600 mb-2"><strong>ID:</strong> {{ receipt.id }}</p>
+      <p class="text-gray-600 mb-2"><strong>Address:</strong> {{ receipt.address }}</p>
+      <p class="text-gray-600 mb-2"><strong>Email:</strong> {{ receipt.customer_email }}</p>
+      <p class="text-gray-600 mb-2"><strong>Disease:</strong> {{ receipt.disease }}</p>
+     <p class="text-gray-600 mb-2"><strong>Status:</strong> {{ receipt.status }}</p>
+
+      <!-- Symptoms (comma-separated) -->
+      <p class="text-gray-600 mb-2"><strong>Symptoms:</strong> {{ receipt.symptoms }}</p>
+      
+      <!-- How much symptoms affect daily life -->
+      <p class="text-gray-600 mb-2"><strong>Affects Daily Life (1-10):</strong> {{ receipt.daily_life_impact }}</p>
+      
+      <!-- Treatment History -->
+      <p class="text-gray-600 mb-2"><strong>Treatment History:</strong> {{ 'Yes' if receipt.treatment_history == 1 else 'No' }}</p>
+      
+      <!-- Duration of Symptoms -->
+      <p class="text-gray-600 mb-4"><strong>Duration of Symptoms:</strong> {{ receipt.symptom_duration }}</p>
+      
+   </div>
+  {% endfor %}
+</div>
+
 {% endblock %}

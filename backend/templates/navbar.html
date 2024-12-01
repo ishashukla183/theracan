@@ -21,16 +21,20 @@
                     Diseases
                 </button>
                 <div id="dropdown" class="absolute mt-2 w-64 bg-white shadow-lg rounded-md hidden">
+                    <a href="/diseases/anxiety-ptsd" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Anxiety and PTSD</a>
+                 
                     <a href="/diseases/sleep-disorders" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Sleep Disorders</a>
                     <a href="/diseases/chronic-pain" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Chronic Pain</a>
                     <a href="/diseases/migraine" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Migraine</a>
-                    <!-- Add more disease links here -->
+                    <a href="/diseases/womens-health" class="block px-4 py-2 text-lg hover:bg-gray-200 hover:underline">Women's Health</a>
+                   
                 </div>
             </div>
 
             <a href="/about" class="block py-2 md:py-0 text-xl font-semibold text-gray-800 hover:underline">About TheraCan</a>
-
+           <a class="block py-2 md:py-0 text-xl font-semibold hover:underline" href="{{ url_for('user_receipts') }}">My Receipts</a>
             <!-- Request Treatment Button -->
+             
             <div class="mt-4 md:mt-0">
                 <a href="/questionnaire">
                     <button class="bg-green-800 text-white py-2 px-6 rounded-full shadow-lg transition duration-300 hover:bg-green-700">

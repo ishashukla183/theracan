@@ -15,20 +15,18 @@ class Sales(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     amount = db.Column(db.Float, nullable=False)  # Amount of the sale
     timestamp = db.Column(db.DateTime, default=db.func.current_timestamp())
+    
 class Receipt(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    status = db.Column(db.String(20), default="pending")  # pending, approved, rejected
-    customer_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    doctor_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True)  # Assigned doctor (optional)
+    status = db.Column(db.String(20), default="pending")
     name = db.Column(db.String(120), nullable=False)
+    email = db.Column(db.String(120), nullable=False)
     address = db.Column(db.String(200), nullable=False)
-    disease = db.Column(db.String(200), nullable=False)
-    prescription = db.Column(db.String(200), nullable=True)  # URL for prescription image
-    customer_email = db.Column(db.String(120), nullable=False)  # Customer's email
-    doctor_email = db.Column(db.String(120), nullable=True)  # Doctor's email (optional)
-
-    customer = db.relationship('User', foreign_keys=[customer_id], backref='customer_receipts')
-    doctor = db.relationship('User', foreign_keys=[doctor_id], backref='doctor_receipts')
+    symptoms = db.Column(db.String(300), nullable=False)  # Comma-separated string
+    additional_symptoms = db.Column(db.String(300), nullable=True)
+    daily_life_impact = db.Column(db.Integer, nullable=False)
+    previous_treatment = db.Column(db.Integer, nullable=False)  # 1 = Yes, 0 = No
+    symptom_duration = db.Column(db.String(50), nullable=False)
 
 
 

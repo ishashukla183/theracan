@@ -32,40 +32,70 @@
             <form id="step1-form">
               <div class="mb-4">
                 <label for="fullName" class="block text-gray-700">Full Name</label>
-                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Max Mustermann" id="fullName" name="fullName" required>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" id="fullName" name="fullName" required>
+              </div>
+              <div class="mb-4">
+                <label for="customerEmail" class="block text-gray-700">Email</label>
+                <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-md" id="customerEmail" name="customerEmail" required>
               </div>
               <div class="mb-4">
                 <label for="address" class="block text-gray-700">Address</label>
-                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="123 Main St" id="address" name="address" required>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" id="address" name="address" required>
+              </div>
+            
+                <div class="mb-4">
+                  <label class="block text-gray-700">Symptoms</label>
+                  <div class="flex flex-col space-y-2">
+                    <label>
+                      <input type="checkbox" name="symptoms" value="sleep disorder" class="mr-2"> Sleep Disorder
+                    </label>
+                    <label>
+                      <input type="checkbox" name="symptoms" value="anxiety/ptsd" class="mr-2"> Anxiety/PTSD
+                    </label>
+                    <label>
+                      <input type="checkbox" name="symptoms" value="cancer" class="mr-2"> Cancer
+                    </label>
+                    <label>
+                      <input type="checkbox" name="symptoms" value="depression" class="mr-2"> Depression
+                    </label>
+                    <label>
+                      <input type="checkbox" name="symptoms" value="migraine" class="mr-2"> Migraine
+                    </label>
+                  </div>
+           
+                
               </div>
               <div class="mb-4">
-                <label for="disease" class="block text-gray-700">Disease</label>
-                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="Condition" id="disease" name="disease" required>
+                <label for="additionalSymptoms" class="block text-gray-700">Additional Symptoms</label>
+                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" id="additionalSymptoms" name="additionalSymptoms">
               </div>
               <div class="mb-4">
-                <label for="prescription" class="block text-gray-700">Prescription (optional)</label>
-                <input type="text" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="e.g., Drug Name" id="prescription" name="prescription">
+                <label for="dailyLifeImpact" class="block text-gray-700">On a scale of 1-10, how much do the symptoms affect your daily life?</label>
+                <input type="number" min="1" max="10" class="w-full px-4 py-2 border border-gray-300 rounded-md" id="dailyLifeImpact" name="dailyLifeImpact" required>
               </div>
-              <!-- Customer Email -->
               <div class="mb-4">
-                <label for="customerEmail" class="block text-gray-700">Customer Email</label>
-                <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="email@example.com" id="customerEmail" name="customerEmail" required>
+                <label for="previousTreatment" class="block text-gray-700">Have you been treated before?</label>
+                <select id="previousTreatment" name="previousTreatment" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                  <option value="1">Yes</option>
+                  <option value="0">No</option>
+                </select>
               </div>
-              <!-- Doctor Email (optional) 
               <div class="mb-4">
-                <label for="doctorEmail" class="block text-gray-700">Doctor Email (optional)</label>
-                <input type="email" class="w-full px-4 py-2 border border-gray-300 rounded-md" placeholder="doctor@example.com" id="doctorEmail" name="doctorEmail">
-              </div>-->
-              <!-- Terms and Conditions Checkbox -->
+                <label for="symptomDuration" class="block text-gray-700">How long have you been experiencing symptoms?</label>
+                <select id="symptomDuration" name="symptomDuration" class="w-full px-4 py-2 border border-gray-300 rounded-md">
+                  <option value="under 3 months">Under 3 months</option>
+                  <option value="3-6 months">3-6 months</option>
+                  <option value="6 months">Over 6 months</option>
+                </select>
+              </div>
               <div class="mb-4 flex items-center">
                 <input type="checkbox" id="termsCheckbox" class="mr-2" onchange="toggleSubmitButton()">
                 <label for="termsCheckbox" class="text-gray-700">
                   I agree to the <a href="#" class="text-blue-500">Terms and Conditions</a>
                 </label>
               </div>
-              <!-- Submit Button -->
               <button type="button" id="submitButton" class="w-full py-2 px-4 bg-green-900 text-white rounded-md hover:bg-green-600 transition" onclick="submitForm()" disabled>
-                Create Receipt
+                Submit
               </button>
             </form>
           </div>
@@ -74,49 +104,39 @@
     </div>
   </div>
 
-  <!-- Script for Bootstrap Accordion -->
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Script to handle form submission and checkbox logic -->
   <script>
     function toggleSubmitButton() {
       const submitButton = document.getElementById('submitButton');
       const termsCheckbox = document.getElementById('termsCheckbox');
-      
-      // Enable the submit button only when the checkbox is checked
       submitButton.disabled = !termsCheckbox.checked;
     }
 
     function submitForm() {
-      // Collect the form data
+      const symptoms = Array.from(document.querySelectorAll('input[name="symptoms"]:checked'))
+                            .map(checkbox => checkbox.value)
+                            .join(',');
+    
       const formData = {
-      
         name: document.getElementById('fullName').value,
+        email: document.getElementById('customerEmail').value,
         address: document.getElementById('address').value,
-        disease: document.getElementById('disease').value,
-        prescription: document.getElementById('prescription').value,
-        customer_email: document.getElementById('customerEmail').value,
-       
+        symptoms: symptoms,
+        additionalSymptoms: document.getElementById('additionalSymptoms').value,
+        dailyLifeImpact: parseInt(document.getElementById('dailyLifeImpact').value),
+        previousTreatment: parseInt(document.getElementById('previousTreatment').value),
+        symptomDuration: document.getElementById('symptomDuration').value,
       };
-
-      // Send the form data to the backend using AJAX
+    
       fetch('/customer/create_receipt', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       })
       .then(response => response.json())
-      .then(data => {
-        alert('Receipt created successfully!');
-        console.log(data);
-      })
-      .catch(error => {
-        alert('Error creating receipt');
-        console.error(error);
-      });
+      .then(data => alert('Submitted successfully!'))
+      .catch(error => console.error(error));
     }
+    
   </script>
 </body>
 </html>

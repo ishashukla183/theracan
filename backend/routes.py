@@ -211,25 +211,34 @@ def signup():
 
 @app.route('/customer/create_receipt', methods=['POST'])
 def create_receipt():
+    
     data = request.json
     new_receipt = Receipt(
-        customer_id=session.get('user_id'),
         name=data['name'],
+        email=data['email'],
         address=data['address'],
-        disease=data['disease'],
-        prescription=data.get('prescription'),
-        customer_email=data['customer_email'],  # Save customer email
-        
+        symptoms=data['symptoms'],
+        additional_symptoms=data.get('additionalSymptoms', ''),
+        daily_life_impact=data['dailyLifeImpact'],
+        previous_treatment=data['previousTreatment'],
+        symptom_duration=data['symptomDuration'],
+        status="pending"
     )
     db.session.add(new_receipt)
     db.session.commit()
     return jsonify({"message": "Receipt created successfully"}), 201
 
-@app.route('/customer/receipts', methods=['GET'])
-def customer_receipts():
-    customer_id = request.args.get('customer_id')
-    receipts = Receipt.query.filter_by(customer_id=customer_id).all()
-    return jsonify([receipt.to_dict() for receipt in receipts]), 200
+@app.route('/user/receipts', methods=['GET'])
+@login_required
+def user_receipts():
+    user_id = session.get('user_id')
+    if not user_id:
+        flash("You need to be logged in to view receipts.", "error")
+        return redirect(url_for('login'))
+    user = User.query.filter(User.id == user_id).first()
+    # Fetch the user's receipts
+    receipts = Receipt.query.filter_by(email=user.email).all()
+    return render_template('user_receipts.html', receipts=receipts)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -269,9 +278,9 @@ def admin_login():
             return redirect(url_for('admin_dashboard'))
 
         flash('Invalid email or password.', 'error')
-        return render_template('login.html')
+        return render_template('admin_login.html')
 
-    return render_template('login.html')
+    return render_template('admin_login.html')
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -296,6 +305,9 @@ def pricing():
 def questionnaire():
     return render_template('questionnaire.html')
 
+@app.route('/about')
+def home():
+    return render_template('about.html')
 
 diseases_data = {
     "anxiety-and-ptsd": {
@@ -324,6 +336,116 @@ diseases_data = {
             }
         ]
     },
+   
+"chronic-pain": {
+    "condition": "chronic pain",
+    "editable_section": {
+        "image": "https://canngo.express/wp-content/uploads/2024/07/669be7a0d2c58.jpg",
+        "top_text": "The Benefits of Prescription Cannabis for Chronic Pain",
+        "bold_text": "Chronic pain affects millions of individuals, and prescription cannabis offers a science-based approach to managing it.",
+        "paragraphs": [
+            "Chronic pain can significantly reduce the quality of life and is often accompanied by symptoms such as inflammation, sleep disorders, and psychological distress.",
+            "Medical cannabis contains cannabinoids such as THC and CBD, which can help manage chronic pain and its accompanying symptoms."
+        ]
+    },
+    "benefits": [
+        {
+            "heading": "Pain Relief",
+            "description": "THC, a primary active ingredient in medical cannabis, can modulate pain signals in the brain, reducing the intensity of chronic pain. Studies show that THC has sedative properties, relaxing the mind and reducing pain sensation. Medical cannabis is a viable alternative to opiates and should be considered in consultation with a doctor."
+        },
+        {
+            "heading": "Anti-inflammatory",
+            "description": "CBD is known for its anti-inflammatory properties. It reduces inflammatory responses in the body, which often trigger or worsen chronic pain. Additionally, CBD is non-psychoactive and does not cause intoxicating effects."
+        },
+        {
+            "heading": "Reduction of Accompanying Symptoms",
+            "description": "Chronic pain is often associated with sleep disorders, anxiety, and depression. Prescription medical cannabis can alleviate these symptoms by acting on the cannabinoid receptors in the brain and body."
+        }
+    ]
+},
+"migraine": {
+    "condition": "migraines",
+    "editable_section": {
+        "image": "https://canngo.express/wp-content/uploads/2024/07/669be7a0d2c58.jpg",
+        "top_text": "The Benefits of Prescription Cannabis for Migraines",
+        "bold_text": "Migraines can significantly affect daily life, but prescription cannabis offers a natural and science-backed solution.",
+        "paragraphs": [
+            "Migraines are characterized by intense headaches and a range of debilitating symptoms such as nausea, vomiting, and sensitivity to light and sound.",
+            "Medical cannabis, with active compounds like THC and CBD, can help manage migraines by targeting the endocannabinoid system, which plays a crucial role in pain and symptom modulation."
+        ]
+    },
+    "benefits": [
+        {
+            "heading": "Pain Relief",
+            "description": "Medical cannabis can effectively relieve the intense headaches that accompany migraine attacks. Cannabinoids like THC and CBD act on the body's endocannabinoid system to modulate pain. Studies show that cannabis can reduce pain intensity and shorten migraine durations."
+        },
+        {
+            "heading": "Reduction of Accompanying Symptoms",
+            "description": "Migraines are often accompanied by nausea, vomiting, and sensitivity to light and sound. CBD's antiemetic properties help relieve nausea and vomiting, while both cannabinoids reduce sensitivity to light and sound during an attack."
+        },
+        {
+            "heading": "Prevention",
+            "description": "Regular use of medical cannabis can help prevent migraines by stabilizing the endocannabinoid system. This reduces the frequency and severity of attacks, leading to an improved quality of life and less disruption in daily activities."
+        }
+    ]
+},
+"sleep-disorders": {
+    "condition": "chronic sleep disorders",
+    "editable_section": {
+        "image": "https://canngo.express/wp-content/uploads/2024/07/669be7a0d2c58.jpg",
+        "top_text": "The Benefits of Prescription Cannabis for Chronic Sleep Disorders",
+        "bold_text": "Chronic sleep disorders can severely impact quality of life, but prescription cannabis offers a natural and effective remedy.",
+        "paragraphs": [
+            "Sleep disorders, such as insomnia and difficulty maintaining sleep, are often linked to underlying conditions like anxiety, stress, and chronic pain.",
+            "Medical cannabis, containing active compounds like THC and CBD, can help manage these issues by promoting relaxation and improving sleep quality."
+        ]
+    },
+    "benefits": [
+        {
+            "heading": "Improving Sleep Quality",
+            "description": "Medical cannabis can significantly enhance sleep quality. THC (tetrahydrocannabinol) has sedative properties that help reduce the time it takes to fall asleep and increase sleep duration. Studies show that THC prolongs deep sleep phases, leading to a more restful night."
+        },
+        {
+            "heading": "Reduction of Anxiety and Stress",
+            "description": "Chronic sleep disorders are often linked to anxiety and stress. CBD (cannabidiol), a key cannabis compound, has calming properties that reduce anxiety and stress by interacting with serotonin receptors in the brain. This leads to improved sleep quality and a holistic approach to addressing stress-induced insomnia."
+        },
+        {
+            "heading": "Treatment of Accompanying Symptoms",
+            "description": "Chronic sleep disorders can be accompanied by symptoms such as pain, restlessness, and night waking. Cannabinoids like THC and CBD interact with the endocannabinoid system to regulate pain, inflammation, and mood. This alleviates contributing symptoms, promoting better sleep overall."
+        }
+    ]
+},
+"womens-health": {
+    "condition": "women's health: PMS and endometriosis",
+    "editable_section": {
+        "image": "https://canngo.express/wp-content/uploads/2024/07/669be7a0d2c58-1024x642.jpg",
+        "top_text": "A Science-Based Approach to Women's Health Using Prescription Cannabis",
+        "bold_text": "Women's health includes a multitude of complex complaints that can significantly impact daily life.",
+        "paragraphs": [
+            "Medical cannabis offers a natural and effective solution to alleviate various women's health problems, including menstrual cramps, endometriosis, premenstrual syndrome (PMS), and menopausal symptoms. These conditions can significantly affect daily life and are often accompanied by severe pain, inflammation, and mood swings.",
+            "The body's endocannabinoid system (ECS) plays an essential role in regulating pain, inflammation, and mood. Cannabinoids such as THC (tetrahydrocannabinol) and CBD (cannabidiol), found in medical cannabis, interact directly with ECS receptors. This interaction helps modulate pain signal transmission and reduces inflammatory processes, particularly beneficial for painful menstrual cramps and endometriosis."
+        ]
+    },
+    "benefits": [
+        {
+            "heading": "Pain Relief",
+            "description": "Medical cannabis can significantly relieve pain caused by PMS and endometriosis. THC and CBD interact with the body's endocannabinoid system, modulating pain signals and reducing inflammation."
+        },
+        {
+            "heading": "Reduction of Discomfort",
+            "description": "PMS and endometriosis are often accompanied by severe mood swings and emotional distress. CBD's anti-anxiety and mood-stabilizing effects help alleviate irritability and depression."
+        },
+        {
+            "heading": "Improving Sleep Quality",
+            "description": "Sleep disorders are common with PMS and endometriosis. THC and CBD improve sleep quality by reducing the time it takes to fall asleep and increasing sleep duration."
+        }
+    ]
+}
+
+
+
+    
+    
     # Add other disease data here...
 }
 
